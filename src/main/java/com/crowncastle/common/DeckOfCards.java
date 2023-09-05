@@ -86,8 +86,7 @@ public class DeckOfCards {
     }
 
     private static int getCardValue(String card) {
-
-        int value = 0;
+        int value;
         if (card.startsWith("2")) {
             value = 2;
         } else if (card.startsWith("3")) {
