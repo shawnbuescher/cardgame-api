@@ -1,33 +1,43 @@
 package com.crowncastle.tests;
 
-import static io.restassured.RestAssured.given;
-
 import com.crowncastle.common.Constants;
-
-import io.restassured.response.Response;
+import com.crowncastle.common.DeckOfCards;
 import org.testng.annotations.Test;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
 
 public class SmokeTests {
     @Test
     public void getNewDeck() {
         given().
                 when().get(Constants.BASEURI + "/api/deck/new/").
-                then().assertThat().statusCode(200);
+                then().assertThat().statusCode(200).
+                and().assertThat().body("shuffled", is(false));
     }
 
     @Test
-    public void getShuffle() {
+    public void getShuffled() {
         given().
-                when().get(Constants.BASEURI +"/api/deck/new/shuffle/?deck_count=1").
-                then().assertThat().statusCode(200);
+                when().get(Constants.BASEURI + "/api/deck/new/shuffle/?deck_count=1").
+                then().assertThat().statusCode(200).
+                and().assertThat().body("shuffled", is(true));
+    }
+    @Test
+    public void getDeckAndShuffle() {
+        String deckId = DeckOfCards.newDeck();
+        System.out.println("New Deck Id is: " + deckId);
+
+        given()
+                .pathParam("deckId", deckId)
+                .when()
+                .get(Constants.BASEURI + "/api/deck/{deckId}/shuffle/")
+                .then().assertThat().body("shuffled", is(true));
     }
 
     @Test
     public void getDrawCard() {
-        Response responseNewDeck = given().when().get(Constants.BASEURI + "/api/deck/new/");
-
-        String deckId = responseNewDeck.path("deck_id");
-
+        String deckId = DeckOfCards.newDeck();
         System.out.println("New Deck Id is: " + deckId);
 
         given()
