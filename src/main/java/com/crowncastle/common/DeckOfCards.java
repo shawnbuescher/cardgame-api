@@ -3,7 +3,6 @@ package com.crowncastle.common;
 import io.restassured.response.Response;
 
 import java.util.List;
-import java.util.ListS;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
@@ -75,13 +74,11 @@ public class DeckOfCards {
 
         // If there are aces, then try setting the value of one of the aces to 1
         if (numAces > 0) {
-            int minAceValue = 11;
             for (int i = 0; i < numAces; i++) {
                 sumOfCards -= 10;
                 if (sumOfCards == 21) {
                     return true;
                 }
-                minAceValue = 1;
             }
         }
 
