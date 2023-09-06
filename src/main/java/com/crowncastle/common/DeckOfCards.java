@@ -43,10 +43,8 @@ public class DeckOfCards {
                     .get(Constants.BASEURI + "/api/deck/{deckId}/draw/?count={count}");
 
             List<String> codes = drawnCards.path("cards.code");
-            String codesAsString = String.join(",", codes);
 
-            System.out.println("cardlist:" + codesAsString);
-            return codesAsString;
+            return String.join(",", codes);
 
         } catch (Exception e) {
             System.out.println("Exception: " + e.getMessage());

@@ -23,33 +23,30 @@ public class IntegrationTests {
         //Create two piles, named player 1 and player 2, and add 3 drawn cards to them
 
         String player1CardList= DeckOfCards.drawCards(deckId,3);
+        System.out.println("Player 1 was dealt: "+ player1CardList);
+
         String player2CardList= DeckOfCards.drawCards(deckId,3);
+        System.out.println("Player 2 was dealt: "+ player2CardList);
 
         Response creatPile1Response = given()
-                .log().all()
                 .pathParam("deckId", deckId)
                 .pathParam("cardList", player1CardList)
                 .when()
                 .get(Constants.BASEURI + "/api/deck/{deckId}/pile/Player1/add/?cards={cardList}");
 
-        creatPile1Response.body().prettyPrint();
 
         Response creatPile2Response = given()
-                .log().all()
                 .pathParam("deckId", deckId)
                 .pathParam("cardList", player2CardList)
                 .when()
                 .get(Constants.BASEURI + "/api/deck/{deckId}/pile/Player2/add/?cards={cardList}");
 
-        creatPile2Response.body().prettyPrint();
 
         if(DeckOfCards.checkSum(player1CardList)){
             System.out.println("Player 1 has Black Jack!");
-            System.out.println("Their cards were: " + player1CardList);
         }
         if(DeckOfCards.checkSum(player2CardList)){
             System.out.println("Player 2 has Black Jack!");
-            System.out.println("Their cards were: " + player2CardList);
         }
 
     }
